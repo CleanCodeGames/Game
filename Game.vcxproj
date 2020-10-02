@@ -148,6 +148,7 @@
     <ClInclude Include="Define.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="PlayMap.h" />
     <ClInclude Include="System.h" />
     <ClInclude Include="Texture.h" />
   </ItemGroup>
