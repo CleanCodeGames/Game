@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <thread>
 #include <functional>
+#include <filesystem>
 #include <SFML\Graphics.hpp>
 
 #define PI  3.141590
@@ -36,6 +37,8 @@ using std::shared_ptr;
 using std::ifstream;
 using std::ofstream;
 using std::thread;
+
+namespace fs = std::filesystem;
 
 typedef unsigned int uint;
 typedef sf::Vector2i v2i;
