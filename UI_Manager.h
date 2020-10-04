@@ -16,11 +16,19 @@ public:
 
 
 	void Update() {
+		wnd.setView(wnd.getDefaultView());
+		// Экранная обработка
 
+		// Конец экранной обработки
+		wnd.setView(cam);
 	}
 
 	void Action() {
+		wnd.setView(wnd.getDefaultView());
+		// Экранная обработка
 
+		// Конец экранной обработки
+		wnd.setView(cam);
 	}
 
 	void Draw() {
