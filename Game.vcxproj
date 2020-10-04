@@ -155,7 +155,8 @@
     <ClInclude Include="Font.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="MainMenu.h" />
-    <ClInclude Include="MenuSelectMap.h" />
+    <ClInclude Include="MenuOptions.h" />
+    <ClInclude Include="MenuMapSelect.h" />
     <ClInclude Include="PlayMap.h" />
     <ClInclude Include="System.h" />
     <ClInclude Include="TextBox.h" />

@@ -1,5 +1,6 @@
 #pragma once
-#include "MenuSelectMap.h"
+#include "MenuMapSelect.h"
+#include "MenuOptions.h"
 
 enum class StateMenu {
 	MAIN = 0u,
@@ -13,14 +14,15 @@ private:
 
 	StateMenu m_state = StateMenu::MAIN;
 	vector<unique_ptr<AbstractButton>> vec_button;
-	MenuSelectMap m_menu_select_map;
+	MenuMapSelect m_menu_map_select;
+	MenuOptions m_menu_options;
 
 public:
 
 	MainMenu() {
-		vec_button.push_back(make_unique<ButtonClickActiveWithText>(CreateShape(v2f(scr_W / 2, scr_H / 2 - 25), v2f(80, 24), -1, color_cell_in, color_cell_out), "Play"));
-		vec_button.push_back(make_unique<ButtonClickActiveWithText>(CreateShape(v2f(scr_W / 2, scr_H / 2 - 0), v2f(80, 24), -1, color_cell_in, color_cell_out), "Options"));
-		vec_button.push_back(make_unique<ButtonClickActiveWithText>(CreateShape(v2f(scr_W / 2, scr_H / 2 + 25), v2f(80, 24), -1, color_cell_in, color_cell_out), "Quit"));
+		vec_button.push_back(make_unique<ButtonClickActiveWithText>(CreateShape(v2f(scr_W / 2, scr_H / 2 - 25), v2f(80, 24), Color(100,100,100)), "Play"));
+		vec_button.push_back(make_unique<ButtonClickActiveWithText>(CreateShape(v2f(scr_W / 2, scr_H / 2 - 0), v2f(80, 24), Color(100, 100, 100)), "Options"));
+		vec_button.push_back(make_unique<ButtonClickActiveWithText>(CreateShape(v2f(scr_W / 2, scr_H / 2 + 25), v2f(80, 24), Color(100, 100, 100)), "Quit"));
 	}
 
 	StateMenu GetState() const {
@@ -34,86 +36,58 @@ public:
 	void Update() {
 		switch (m_state)
 		{
-		case StateMenu::MAIN:
-			for (auto& button : vec_button) {
-				wnd.setView(wnd.getDefaultView());
-				// Экранная обработка
-				button->Update();
-				// Конец экранной обработки
-				wnd.setView(cam);
-			}
-			break;
-		case StateMenu::MAP_SELECT:
-			wnd.setView(wnd.getDefaultView());
-			// Экранная обработка
-			m_menu_select_map.Update();
-			// Конец экранной обработки
-			wnd.setView(cam);
-			break;
-		case StateMenu::OPTIONS:
-			break;
-		default:
-			break;
+			case StateMenu::MAIN:
+				for (auto& button : vec_button)
+					button->Update();
+				break;
+			case StateMenu::MAP_SELECT:
+				m_menu_map_select.Update();
+				break;
+			case StateMenu::OPTIONS:
+				m_menu_options.Update();
+				break;
+			default: break;
 		}
 	}
 
 	void Action() {
 		switch (m_state)
 		{
-		case StateMenu::MAIN:
-			wnd.setView(wnd.getDefaultView());
-			// Экранная обработка
-			for (auto& button : vec_button) {
-				if (button->Action()) {
-					if (button->GetActionId() == "Play") {
-						m_menu_select_map.CheckMaps();
-						m_state = StateMenu::MAP_SELECT;
+			case StateMenu::MAIN:
+				for (auto& button : vec_button) {
+					if (button->Action()) {
+						if (button->GetActionId() == "Play") {
+							m_menu_map_select.CheckMaps();
+							m_state = StateMenu::MAP_SELECT;
+						}
+						else if (button->GetActionId() == "Options") m_state = StateMenu::OPTIONS;
+						else if (button->GetActionId() == "Quit") wnd.close();
 					}
-					else if (button->GetActionId() == "Options") m_state = StateMenu::OPTIONS;
-					else if (button->GetActionId() == "Quit") wnd.close();
 				}
-			}
-			// Конец экранной обработки
-			wnd.setView(cam);
-			
-			break;
-		case StateMenu::MAP_SELECT:
-			wnd.setView(wnd.getDefaultView());
-			// Экранная обработка
-			m_menu_select_map.Action();
-			// Конец экранной обработки
-			wnd.setView(cam);
-			break;
-		case StateMenu::OPTIONS:
-			break;
-		default:
-			break;
+				
+				break;
+			case StateMenu::MAP_SELECT:
+				m_menu_map_select.Action();
+				break;
+			case StateMenu::OPTIONS:
+				m_menu_options.Action();
+				break;
 		}
 	}
 
 	void Draw() {
 		switch (m_state)
 		{
-		case StateMenu::MAIN:
-			wnd.setView(wnd.getDefaultView());
-			// Экранная обработка
-			for (auto& button : vec_button) {
-				button->Draw();
-			}
-			// Конец экранной обработки
-			wnd.setView(cam);
-			break;
-		case StateMenu::MAP_SELECT:
-			wnd.setView(wnd.getDefaultView());
-			// Экранная обработка
-			m_menu_select_map.Draw();
-			// Конец экранной обработки
-			wnd.setView(cam);
-			break;
-		case StateMenu::OPTIONS:
-			break;
-		default:
-			break;
+			case StateMenu::MAIN:
+				for (auto& button : vec_button)
+					button->Draw();
+				break;
+			case StateMenu::MAP_SELECT:
+				m_menu_map_select.Draw();
+				break;
+			case StateMenu::OPTIONS:
+				m_menu_options.Draw();
+				break;
 		}
 	}
 
